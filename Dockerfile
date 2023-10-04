@@ -1,8 +1,5 @@
-From debian:jessie
-MAINTAINER Timothée Eid <timothee.eid@erizo.fr>
-
-# Set noninteractive mode for apt-get
-ENV DEBIAN_FRONTEND noninteractive
+FROM alpine:latest
+MAINTAINER Faisal <faisal.is@gmail.com>
 
 # IMAPs port
 EXPOSE 993
@@ -20,14 +17,11 @@ VOLUME /etc/ssl/localcerts
 VOLUME /etc/dovecot
 
 # Install dovecot
-RUN apt-get update && apt-get install -y \
-	openssl \
-	dovecot-imapd \
+RUN apk --update --no-cache add \
+	dovecot \
 	dovecot-lmtpd \
 	dovecot-ldap \
-	dovecot-sieve \
-	dovecot-managesieved \
-&& rm -rf /var/lib/apt/lists/*
+	bash
 
 # Add default conf
 ADD default_conf /etc/dovecot
